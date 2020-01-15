@@ -4,16 +4,15 @@ from .connection import Connection
 class View_model():
     def __init__(self):
         self.db = Connection()
-        self.author = ""
-        self.content = ""
+        
        
         
         
 
     #method for inserting message into the database
-    def write_message(self):
+    def write_message(self, content, author):
         self.db.initialize_connection()
-        self.db.cursor.execute("INSERT INTO message (content, publishing_date, author) VALUES (%s, NOW(), %s);", self.content, self.author)
+        self.db.cursor.execute("INSERT INTO message (content, publishing_date, author) VALUES (%s, NOW(), %s);", (content, author))
         self.db.connection.commit()
         self.db.close_connection()
         
@@ -24,7 +23,7 @@ class View_model():
         self.db.cursor.execute("SELECT * FROM message;")
         messages = self.db.cursor.fetchall()
         self.db.close_connection()
-        print (messages)
+        return messages
 
 
 
